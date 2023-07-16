@@ -1,20 +1,27 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinRespawn : MonoBehaviour
 {
-    [SerializeField] private GameObject _coin;
+    [SerializeField] private Coin _coin;
     [SerializeField] private int _respawnTime;
+    [SerializeField]private int _coinCount;
+
+    private int _randomLeftForseMax;
+    private int _randomRightForseMax;
+    private int _UpForse;
+    private int _totalForse;
+    private WaitForSeconds _wait;
 
     private void Start()
     {
-        StartCoroutine(Create());
-    }
+        _randomLeftForseMax = -3;
+        _randomRightForseMax = 3;
+        _UpForse = 10;
+        _totalForse = 20;
+        _wait = new WaitForSeconds(_respawnTime);
 
-    public void StartCreation()
-    {
-            StartCoroutine(Create());
+        StartCoroutine(Create());
     }
 
     public IEnumerator Create()
@@ -22,9 +29,9 @@ public class CoinRespawn : MonoBehaviour
         while (true)
         {
             Vector3 vector3 = transform.position;
-            GameObject coin = Instantiate(_coin, vector3, Quaternion.identity);
-            coin.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-3, 3), 10) * 20);
-            yield return new WaitForSeconds(_respawnTime);
+            Coin coin = Instantiate(_coin, vector3, Quaternion.identity);
+            coin.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(_randomLeftForseMax, _randomRightForseMax), _UpForse) * _totalForse);
+            yield return _wait;
         }
     }
 }

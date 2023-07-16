@@ -7,7 +7,7 @@ public class TakeCoin : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<ThisIsCoin>(out ThisIsCoin ThisIsCoin)) 
+        if (collision.gameObject.TryGetComponent<Coin>(out Coin ThisIsCoin)) 
         {
             _takeCoin?.Invoke();
             Destroy(collision.gameObject);
