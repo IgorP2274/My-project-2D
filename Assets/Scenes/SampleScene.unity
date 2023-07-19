@@ -1945,7 +1945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coin: {fileID: 122163618344477539, guid: 9ee7fc71d58099e45940fa4a916b679b, type: 3}
   _respawnTime: 2
-  _coinCount: 0
+  _coinCount: 25
 --- !u!61 &874176578
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2915,7 +2915,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _jumpForse: 3
-  _rigidbody: {fileID: 1886979899}
 --- !u!114 &1886979904
 MonoBehaviour:
   m_ObjectHideFlags: 0

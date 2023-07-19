@@ -1,11 +1,14 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+
 public class Move : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForse;
-    [SerializeField] private Rigidbody2D _rigidbody;
 
+    private Rigidbody2D _rigidbody;
     private Animator _animator;
     private bool _isWalking;
     private bool _isGrounded = false;
@@ -14,11 +17,12 @@ public class Move : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _isGrounded = true;
     }
 
 
-    void Update()
+    private void Update()
     {
         _isWalking = false;
         

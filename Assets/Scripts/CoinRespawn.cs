@@ -5,7 +5,7 @@ public class CoinRespawn : MonoBehaviour
 {
     [SerializeField] private Coin _coin;
     [SerializeField] private int _respawnTime;
-    [SerializeField]private int _coinCount;
+    [SerializeField] private int _coinCount;
 
     private int _randomLeftForseMax;
     private int _randomRightForseMax;
@@ -26,7 +26,7 @@ public class CoinRespawn : MonoBehaviour
 
     public IEnumerator Create()
     {
-        while (true)
+        for (int i = 0; i < _coinCount; i++)
         {
             Vector3 vector3 = transform.position;
             Coin coin = Instantiate(_coin, vector3, Quaternion.identity);
