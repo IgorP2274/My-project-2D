@@ -25,7 +25,6 @@ public class Move : MonoBehaviour
         _directionRight = 1.5f;
     }
 
-
     private void Update()
     {
         _isWalking = false;
@@ -58,6 +57,18 @@ public class Move : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
+            _isGrounded = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
+            _isGrounded = false;
+    }
+
     private void Walk(float direction)
     {
         _isWalking = true;
@@ -71,17 +82,5 @@ public class Move : MonoBehaviour
         scaler.x *= -1;
         transform.localScale = scaler;
         transform.Translate(direction, 0, 0);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
-            _isGrounded = true;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
-            _isGrounded = false;
     }
 }
