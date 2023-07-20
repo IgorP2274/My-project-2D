@@ -13,12 +13,16 @@ public class Move : MonoBehaviour
     private bool _isWalking;
     private bool _isGrounded = false;
     private bool _isRight = false;
+    private float _directionLeft;
+    private float _directionRight;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _isGrounded = true;
+        _directionLeft = -1.5f;
+        _directionRight = 1.5f;
     }
 
 
@@ -29,25 +33,17 @@ public class Move : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (_isRight)
-            {
-                Flip();
-                transform.Translate(-1.5f, 0, 0);
-            }
+                Flip(_directionLeft);
 
-            _isWalking = true;
-            transform.Translate(-1 * _speed * Time.deltaTime, 0, 0);
+            Walk(_directionLeft);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             if (!_isRight) 
-            {
-                Flip();
-                transform.Translate(1.5f, 0, 0);
-            }
+                Flip(_directionRight);
 
-            _isWalking = true; ;
-            transform.Translate(_speed * Time.deltaTime, 0, 0);
+            Walk(_directionRight);
         }
 
         if (_isGrounded && _isWalking)
@@ -62,29 +58,30 @@ public class Move : MonoBehaviour
         }
     }
 
-    private void Flip()
+    private void Walk(float direction)
+    {
+        _isWalking = true;
+        transform.Translate(direction * _speed * Time.deltaTime, 0, 0);
+    }
+
+    private void Flip(float direction)
     {
         _isRight = !_isRight;
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler;
+        transform.Translate(direction, 0, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
-        {
             _isGrounded = true;
-            Debug.Log(_isGrounded);
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Ground>(out Ground ground))
-        {
             _isGrounded = false;
-            Debug.Log(_isGrounded);
-        }
     }
 }
