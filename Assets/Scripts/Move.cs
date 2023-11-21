@@ -8,18 +8,27 @@ public class Move : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForse;
 
+    private const string Speed = nameof(Speed);
+
     private Rigidbody2D _rigidbody;
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
     private bool _isWalking;
     private bool _isGrounded = false;
     private bool _isRight = false;
     private float _directionLeft;
     private float _directionRight;
 
+    public static class Params
+    {
+        public static readonly int SpeedHash = Animator.StringToHash(nameof(Speed));
+    }
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _isGrounded = true;
         _directionLeft = -1.5f;
         _directionRight = 1.5f;
@@ -32,7 +41,7 @@ public class Move : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (_isRight)
-                Flip(_directionLeft);
+                Flip();
 
             Walk(_directionLeft);
         }
@@ -40,15 +49,16 @@ public class Move : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             if (!_isRight) 
-                Flip(_directionRight);
+                Flip();
 
             Walk(_directionRight);
         }
 
         if (_isGrounded && _isWalking)
-            _animator.SetFloat("Speed", 1);
+            _animator.SetFloat(Move.Params.SpeedHash, 1);
+
         else
-            _animator.SetFloat("Speed", 0);
+            _animator.SetFloat(Move.Params.SpeedHash, 0);
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && _isGrounded)
         {
@@ -75,12 +85,9 @@ public class Move : MonoBehaviour
         transform.Translate(direction * _speed * Time.deltaTime, 0, 0);
     }
 
-    private void Flip(float direction)
+    private void Flip()
     {
         _isRight = !_isRight;
-        Vector3 scaler = transform.localScale;
-        scaler.x *= -1;
-        transform.localScale = scaler;
-        transform.Translate(direction, 0, 0);
+        _spriteRenderer.flipX = _isRight;
     }
 }

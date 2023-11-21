@@ -5,12 +5,12 @@ public class TakeCoin : MonoBehaviour
 {
     [SerializeField] private UnityEvent _takeCoin;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Coin>(out Coin ThisIsCoin)) 
+        if (collision.gameObject.TryGetComponent<Coin>(out Coin thisIsCoin))
         {
             _takeCoin?.Invoke();
             Destroy(collision.gameObject);
-        } 
+        }
     }
 }
